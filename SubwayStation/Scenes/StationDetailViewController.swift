@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Alamofire
 
 class StationDetailViewController: UIViewController {
     private lazy var refreshControl: UIRefreshControl = {

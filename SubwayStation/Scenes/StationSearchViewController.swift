@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class StationSearchViewController: UIViewController {
     private var numberOfRows: Int = 0
@@ -43,6 +44,10 @@ class StationSearchViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
         }
         tableView.isHidden = true
+    }
+    
+    private func requestStationName() {
+        
     }
 }
 
