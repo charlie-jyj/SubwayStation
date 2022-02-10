@@ -58,7 +58,19 @@ class StationSearchViewController: UIViewController {
                 guard let self = self,
                     case .success(let data) = response.result
                        else { return }
-                self.stations = data.stations
+                
+                let nameset:[String] = Array(Set(data.stations.map {
+                    return $0.stationName
+                }))
+                
+                var counting: Array<Int> = Array(repeating: 0, count: nameset.count)
+               
+                self.stations = data.stations.filter {
+                    let index = nameset.firstIndex(of: $0.stationName) as! Int
+                    counting[index] += 1
+                    return counting[index] < 2
+                }
+                
                 print("결과:\(self.stations)")
                 self.tableView.reloadData()
             }

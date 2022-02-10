@@ -48,6 +48,13 @@ class StationDetailViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         fetchDetailData()
+        Timer.scheduledTimer(withTimeInterval: 20.0, repeats: true) {
+            [weak self]
+            timer in
+            guard let self = self else { return }
+            self.fetchDetailData()
+        }
+        
     }
 }
 
