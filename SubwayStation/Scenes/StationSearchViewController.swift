@@ -67,13 +67,13 @@ class StationSearchViewController: UIViewController {
 
 extension StationSearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        tableView.reloadData()
+        tableView.reloadData() // after ending edit tableview == [] 를 반영한다.
         tableView.isHidden = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         tableView.isHidden = true
-        stations = []
+        stations = [] // reset
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

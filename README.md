@@ -68,9 +68,58 @@ extension viewController: UITableViewDataSource {
 1. Notification Center
 2. Delegate Pattern
 3. Closure
-4. RxSwift
+4. RxSwift (실시간 업데이트를 위해서 필요)
 5. Conbine ios 14+
 
+##### 🔥 Alamofire
+
+- making request
+
+```swift
+open func request<Parameters: Encodable>(_ convertible: URLConvertible,
+                                         method: HTTPMethod = .get,
+                                         parameters: Parameters? = nil,
+                                         encoder: ParameterEncoder = URLEncodedFormParameterEncoder.default,
+                                         headers: HTTPHeaders? = nil,
+                                         interceptor: RequestInterceptor? = nil) -> DataRequest
+```
+
+- response handling and validation
+
+```swift
+AF.request("https://httpbin.org/get").responseDecodable(of: DecodableType.self) { response in
+    debugPrint(response)
+}
+
+AF.request("https://httpbin.org/get")
+    .validate(statusCode: 200..<300)
+    .validate(contentType: ["application/json"])
+    .responseData { response in
+        switch response.result {
+        case .success:
+            print("Validation Successful")
+        case let .failure(error):
+            print(error)
+        }
+    }
+```
+
+- response decodable handler
+
+```swift
+struct DecodableType: Decodable { let url: String }
+
+AF.request("https://httpbin.org/get").responseDecodable(of: DecodableType.self) { response in
+    debugPrint("Response: \(response)")
+}
+
+AF.request(urlString)
+            .responseDecodable(of: StationResponseModel.self) {
+                response in
+                guard case .success(let data) = response.result else {return}
+                print(data.stations)
+            }
+```
 
 
 ### 3) 새롭게 알게 된 것
@@ -191,3 +240,18 @@ func configureRefreshControl () {
 
 - App Transport Security Settings
   - Allow Arbitrary Loads : TRUE
+
+#### 💐 request url 문자열에 한글이 포함되어 있다면??
+
+```swift
+let urlString = "서울"
+AF.request(urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+
+```
+
+percent-encodig?
+> URL에 문자를 표현하는 문자 인코딩 방법이다. 이 방법에 따르면 알파벳이나 숫자 등 몇몇 문자를 제외한 값은 옥텟 단위로 묶어서, 16진수 값으로 인코딩한다.
+
+#### 👑 resume()
+
+URLSessionTask를 사용할 때에는 session.dataTask() 의 complete closure 후에 resume() 메소드를 사용해야 생성된 task를 실행할 수 있었다. 하지만 alamofire 에서는 필수가 아니라고 생각한다. (제거해도 동작하던데)
