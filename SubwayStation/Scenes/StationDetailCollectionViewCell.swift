@@ -12,7 +12,7 @@ class StationDetailCollectionViewCell: UICollectionViewCell {
     private lazy var lineLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
-        label.font = .systemFont(ofSize: 20.0, weight: .semibold)
+        label.font = .systemFont(ofSize: 18.0, weight: .semibold)
         return label
     }()
     
@@ -22,26 +22,17 @@ class StationDetailCollectionViewCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
-private extension StationDetailCollectionViewCell {
-    func setupViews() {
-        lineLabel.text = "왕십리행-왕십리방면"
-        remainTimeLabel.text = "왕십리 도착"
+extension StationDetailCollectionViewCell {
+    func setupViews(with realTimeArrival: StationArrivalDataResponseModel.RealTimeArrival) {
+        lineLabel.text = realTimeArrival.line
+        remainTimeLabel.text = realTimeArrival.remainTime
         
         setupLayout()
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         backgroundColor = .systemBackground
         layer.cornerRadius = 10
         layer.shadowColor = UIColor.black.cgColor

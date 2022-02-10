@@ -15,6 +15,7 @@
 		927CF8C627B3753800B6493D /* StationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CF8C527B3753800B6493D /* StationDetailViewController.swift */; };
 		927CF8C827B3758600B6493D /* StationDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CF8C727B3758500B6493D /* StationDetailCollectionViewCell.swift */; };
 		927CF8CB27B3A5A000B6493D /* StationResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CF8CA27B3A5A000B6493D /* StationResponseModel.swift */; };
+		927CF8CE27B4A41600B6493D /* StationArrivalDataResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CF8CD27B4A41600B6493D /* StationArrivalDataResponseModel.swift */; };
 		D171020A4CDE724CBD0A1A8E /* Pods_SubwayStation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C11B522D5554FF621998 /* Pods_SubwayStation.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		927CF8C727B3758500B6493D /* StationDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		927CF8CA27B3A5A000B6493D /* StationResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationResponseModel.swift; sourceTree = "<group>"; };
 		927CF8CC27B3B6F000B6493D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		927CF8CD27B4A41600B6493D /* StationArrivalDataResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationArrivalDataResponseModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				927CF8CA27B3A5A000B6493D /* StationResponseModel.swift */,
+				927CF8CD27B4A41600B6493D /* StationArrivalDataResponseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				927CF8C627B3753800B6493D /* StationDetailViewController.swift in Sources */,
 				927CF8CB27B3A5A000B6493D /* StationResponseModel.swift in Sources */,
 				927CF8B527B3413700B6493D /* StationSearchViewController.swift in Sources */,
+				927CF8CE27B4A41600B6493D /* StationArrivalDataResponseModel.swift in Sources */,
 				927CF8B127B3413700B6493D /* AppDelegate.swift in Sources */,
 				927CF8C827B3758600B6493D /* StationDetailCollectionViewCell.swift in Sources */,
 				927CF8B327B3413700B6493D /* SceneDelegate.swift in Sources */,

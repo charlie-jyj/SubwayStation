@@ -10,7 +10,7 @@ import SnapKit
 import Alamofire
 
 class StationSearchViewController: UIViewController {
-    private var numberOfRows: Int = 0
+    private var stations: [Station] = []
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
@@ -46,44 +46,76 @@ class StationSearchViewController: UIViewController {
         tableView.isHidden = true
     }
     
-    private func requestStationName() {
+    private func requestStationName(from stationName: String) {
+        let stationName = validateStationName(stationName: stationName)
+        print("입력:\(stationName)")
+        let urlString = "http://openapi.seoul.go.kr:8088/sample/json/SearchInfoBySubwayNameService/1/5/\(stationName)"
         
+        AF.request(urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: StationResponseModel.self) {
+                [weak self]
+                response in
+                guard let self = self,
+                    case .success(let data) = response.result
+                       else { return }
+                self.stations = data.stations
+                print("결과:\(self.stations)")
+                self.tableView.reloadData()
+            }
     }
 }
 
 extension StationSearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        numberOfRows = 5
-        tableView.isHidden = false
         tableView.reloadData()
+        tableView.isHidden = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        numberOfRows = 0
         tableView.isHidden = true
-        tableView.reloadData()
+        stations = []
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        requestStationName(from: searchText)
     }
 }
 
 extension StationSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // select row
-        let detailViewController = StationDetailViewController()
+        let station = stations[indexPath.row]
+        let detailViewController = StationDetailViewController(station: station)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
 extension StationSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfRows
+        return stations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "\(indexPath.item)"
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+        cell.textLabel?.text = "\(stations[indexPath.row].stationName)"
+        cell.detailTextLabel?.text = "\(stations[indexPath.row].lineNumber)"
         return cell
     }
     
     
+}
+
+private extension StationSearchViewController {
+    func validateStationName(stationName: String) -> String {
+        var index = -1;
+        return Array(stationName).compactMap {
+            index += 1
+            if $0 == "역", index != 0 {
+                return nil
+            }
+            return String($0)
+        }
+        .joined(separator: "")
+    }
 }
 
